@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @author Miguel Matul <https://github.com/MigueMat4>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Pokemon {
+public class Pokemon{
     private String id;
     private String name;
     private float height;
