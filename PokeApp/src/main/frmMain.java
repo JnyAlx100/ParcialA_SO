@@ -136,7 +136,39 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     // clase para deletrear el nombre del pokemon
+    public class Spelling extends Thread {
 
+        public void deletrear() throws MalformedURLException, IOException, InterruptedException {
+            //Se bloquea el boton de deletrear y buscar
+            btnDeletrear.setEnabled(false);
+            btnBuscar.setEnabled(false);
+
+            String nombre = miPokemon.getName();
+
+            for (int x = 0; x < nombre.length(); x++) {
+                lblLetra.setText(String.valueOf(nombre.charAt(x)));
+                Thread.sleep(1000);
+            }
+            lblLetra.setText("?");
+
+            //Se re activa el boton de deletrear y buscar
+            btnDeletrear.setEnabled(true);
+            btnBuscar.setEnabled(true);
+        }
+
+        @Override
+        public void run() {
+            super.run(); //To change body of generated methods, choose Tools | Templates.
+            try {
+                deletrear();
+            } catch (IOException ex) {
+                Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -294,6 +326,7 @@ public class frmMain extends javax.swing.JFrame {
 
     private void btnDeletrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletrearActionPerformed
         //deletrear 
+        new Spelling().start();
     }//GEN-LAST:event_btnDeletrearActionPerformed
 
     /**
