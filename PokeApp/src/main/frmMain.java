@@ -85,6 +85,7 @@ public class frmMain extends javax.swing.JFrame {
             } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
             }
+            new Viewer().start();
         }
 
     }
@@ -93,19 +94,15 @@ public class frmMain extends javax.swing.JFrame {
     public class Viewer extends Thread {
 
         public void mostrarSprites() throws MalformedURLException, IOException, InterruptedException {
-            //Si aun no se ha ejecutado el proceso "Pokedex", entonces este hilo se pone en suspension durante 1 milisegundo para 
-            //que la instancia "img" no sea nula y para que aun asi todas las instrucciones se ejecuten lo mas rapido posible.
-            while (new URL(miPokemon.getSprites().get("front_default").toString()) == null) {
-                Thread.sleep(1);
-            }
             // obtengo la url del listado de cada uno de los sprites que me dio la API
             URL url = new URL(miPokemon.getSprites().get("front_default").toString());
             Image img = ImageIO.read(url);
             lblSprites.setIcon(new ImageIcon(img));
             // 1 segundo para cada cambio de sprite
             Thread.sleep(1000);
-            while (true) {
 
+            //Se agrego un loop para que los sprites de las imagenes no dejen de rotar
+            while (true) {
                 url = new URL(miPokemon.getSprites().get("back_default").toString());
                 img = ImageIO.read(url);
                 lblSprites.setIcon(new ImageIcon(img));
@@ -309,15 +306,8 @@ public class frmMain extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         dexter = new Pokedex(txtNombre.getText());
-        try {
-            dexter.buscarPokemon();
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
         dexter.start();
         lblSprites.setText("");
-        new Viewer().start();
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
